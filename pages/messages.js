@@ -7,7 +7,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'rea
 
 
 
-export default class HomeScreen extends Component {
+export default class Message extends Component {
     render() {
         return (
 
