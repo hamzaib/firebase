@@ -4,21 +4,12 @@ import { Constants } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 
-
-
-
 export default class Messages extends Component {
     render() {
         return (
-
             <View style={{ flex: 1 }}>
-
                 <ScrollView
-
                     style={{ flex: 1 }}>
-
-
-
                     <View style={styles.postsContainer}>
 
                         <View style={styles.detailscontainer}>
@@ -33,9 +24,6 @@ export default class Messages extends Component {
                             </View>
                         </View>
 
-
-
-
                         <View style={styles.detailscontainer}>
                             <Image style={styles.images} source={require("../assets/girl2.jpg")}></Image>
                             <View style={styles.textcontainer}>
@@ -43,7 +31,7 @@ export default class Messages extends Component {
                                 <Text style={styles.date}>Coming? </Text>
                             </View>
 
-            
+
                         </View>
 
 
@@ -123,18 +111,7 @@ export default class Messages extends Component {
                         </View>
                     </View>
 
-
-
-
-
-
-
                 </ScrollView>
-
-            
-
-
-
             </View>
         );
     }
@@ -149,7 +126,7 @@ const styles = StyleSheet.create({
         borderBottomColor: 'gray',
     },
 
- 
+
     detailscontainer: {
         paddingHorizontal: 20,
         paddingVertical: 10,
@@ -192,6 +169,6 @@ const styles = StyleSheet.create({
         color: 'white'
     },
 
- 
+
 
 });
