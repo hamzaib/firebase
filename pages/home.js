@@ -1,21 +1,62 @@
 import React, { Component } from 'react';
-
-
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
-
-
+import firebase from './firebase';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator, StackNavigator } from 'react-navigation-stack';
+import { fromLeft, zoomIn, flipX, flipY } from 'react-navigation-transitions';
+import { StyleSheet, Text, View, Image, Button, TouchableOpacity, ScrollView } from 'react-native';
 
 
 
 export default class HomeScreen extends Component {
+
+    postDatabase = firebase.database().ref('car');
+    state = { cars: {}, selectedId: '' }
+    componentDidMount() {
+        this.postDatabase.on('value', cars => {
+            const carsJSON = cars.val();
+            this.setState({ cars: carsJSON === null ? {} : carsJSON });
+
+        })
+
+        // this.carDatabase.push({color: 'yellow', id: '23'})
+    }
+
+
+
+
+
+    create() {
+        this.postDatabase
+            .push('Yesterday At 2PM' )
+    }
+
+    
+    //Delete 
+
+    delete() {
+        if (this.state.selectedId === '') {
+          return;
+        }
+        this.postDatabase.child(this.state.selectedId).set(null)
+        this.setState({ selectedId: '' })
+
+
+
+    }
+
+
+
+
     render() {
         return (
-
             <View style={{ flex: 1 }}>
 
                 <ScrollView
-                    contentContainerStyle={{ paddingTop: 86 }}
+                    // contentContainerStyle={{ paddingTop: 86 }}
                     style={{ flex: 1 }}>
+
+
                     <ScrollView horizontal>
                         <View style={styles.postsContainer}>
                             <View style={styles.circlecontainers}>
@@ -61,20 +102,35 @@ export default class HomeScreen extends Component {
                     </ScrollView>
 
 
-                    <View style={styles.detailscontainer}>
-                        <Image style={styles.images} source={require("../assets/bbc.png")}></Image>
-                        <View style={styles.textcontainer}>
-                            <Text style={styles.username}>BBC </Text>
-                            <Text style={styles.date}>Yesterday at 12:30 </Text>
-                        </View>
-                    </View>
 
 
-                    <View>
-                        <Image style={styles.postsimages} source={require("../assets/bbc1.jpg")}></Image>
-                        <Text style={styles.captiontext}>#breaking This city is on fire.. </Text>
-                    </View>
+                    {
+                        Object.keys(this.state.cars).map((car, index) =>
+                            <TouchableOpacity key={index} onPress={() => this.setState({ selectedId: car })}>
+                                <View style={styles.detailscontainer}>
 
+                                 
+                                    <Image style={styles.images} source={require("../assets/bbc.png")}></Image>
+                                    <View style={styles.textcontainer}>
+                                        <Text style={styles.username}>BBC </Text>
+                                        <Text style={styles.date}>{(this.state.cars[car])} </Text>
+                                    </View>
+                                </View>
+
+                                <View>
+                                    <Image style={styles.postsimages} source={require("../assets/bbc1.jpg")}></Image>
+                                    <Text style={styles.captiontext}>This post came in {(this.state.cars[car])}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )
+                    }
+                    <Button title="Create Post" onPress={() => this.create()}></Button>
+
+                    <Button title="Delete Post" onPress={() => this.delete()}></Button>
+
+
+
+{/* 
                     <View style={styles.detailscontainer}>
                         <Image style={styles.images} source={require("../assets/barca.png")}></Image>
                         <View style={styles.textcontainer}>
@@ -102,14 +158,11 @@ export default class HomeScreen extends Component {
                         <Image style={styles.postsimages} source={require("../assets/bmw1.jpg")}></Image>
                         <Text style={styles.captiontext}>BMW new i3 audition Toronto</Text>
                     </View>
-
+ */}
 
 
                 </ScrollView>
 
-                <View style={styles.topheader}>
-                    <Text style={styles.titletext}>Home</Text>
-                </View>
 
 
 
@@ -133,20 +186,6 @@ const styles = StyleSheet.create({
 
     },
 
-    topheader: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: 85,
-        backgroundColor: 'maroon',
-        alignItems: 'center',
-        justifyContent: 'center'
-
-
-    },
-
     detailscontainer: {
         paddingHorizontal: 20,
         paddingVertical: 10,
@@ -155,12 +194,10 @@ const styles = StyleSheet.create({
 
 
     },
-
     textcontainer: {
         justifyContent: 'center'
 
     },
-
     titletext: {
         top: 20,
         fontWeight: '800',
@@ -173,42 +210,33 @@ const styles = StyleSheet.create({
         borderRadius: 23,
         marginRight: 10
     },
-
     username: {
         fontSize: 16,
         fontWeight: '500'
     },
-
     date: {
         fontSize: 14,
 
 
     },
-
     postsimages: {
         height: 200,
         width: null,
 
     },
-
     captiontext: {
         paddingHorizontal: 20,
         paddingVertical: 8,
         fontSize: 14
     },
-
     circleimages: {
         height: 65,
         width: 65,
         borderRadius: 33
-
     },
-
     circlecontainers: {
         marginRight: 15,
-
         alignItems: 'center'
-
     }
 
 });

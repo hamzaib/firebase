@@ -7,14 +7,14 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'rea
 
 
 
-export default class Message extends Component {
+export default class Messages extends Component {
     render() {
         return (
 
             <View style={{ flex: 1 }}>
 
                 <ScrollView
-                    contentContainerStyle={{ paddingTop: 86 }}
+
                     style={{ flex: 1 }}>
 
 
@@ -131,9 +131,7 @@ export default class Message extends Component {
 
                 </ScrollView>
 
-                <View style={styles.topheader}>
-                    <Text style={styles.titletext}>MESSAGES</Text>
-                </View>
+            
 
 
 
@@ -151,20 +149,7 @@ const styles = StyleSheet.create({
         borderBottomColor: 'gray',
     },
 
-    topheader: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: 85,
-        backgroundColor: 'maroon',
-        alignItems: 'center',
-        justifyContent: 'center'
-
-
-    },
-
+ 
     detailscontainer: {
         paddingHorizontal: 20,
         paddingVertical: 10,

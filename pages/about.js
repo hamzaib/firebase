@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Constants } from 'react';
+import firebase from './firebase';
 
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 
@@ -7,32 +8,45 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'rea
 
 
 
-export default class HomeScreen extends Component {
+export default class AboutScreen extends Component {
+    state = { currentUser: null }
+
+    componentDidMount() {
+        const { currentUser } = firebase.auth()
+        this.setState({ currentUser })
+    }
     render() {
+
+        const { currentUser } = this.state
         return (
 
             <View style={{ flex: 1 }}>
 
                 <ScrollView
-                    contentContainerStyle={{ paddingTop: 86 }}
+
                     style={{ flex: 1 }}>
-                
+
 
 
                     <View style={styles.detailscontainer}>
                         <Image style={styles.images} source={require("../assets/john.jpg")}></Image>
                         <Text style={styles.profilebio}>JOHN DOE</Text>
                         <Text style={styles.profiletext}>Happy, enthusiastic, friendly and outgoing.</Text>
-                        
+
+                        <Text style={styles.profiletext}>Email: <Text style={{ color: '#e93766'}}>
+                            {currentUser && currentUser.email}
+                            </Text>
+                        </Text>
+
 
                     </View>
 
                     <View style={styles.detailscontainer}>
-                        
-                 
-                            <Text style={styles.profilebio}>POSTS </Text>
-                         
-                     
+
+
+                        <Text style={styles.profilebio}>POSTS </Text>
+
+
                     </View>
 
 
@@ -44,23 +58,20 @@ export default class HomeScreen extends Component {
 
                     <View style={styles.postsContainer}>
 
-                   
+
                         <Image style={styles.postsimages} source={require("../assets/john4.jpg")}></Image>
                         <Image style={styles.postsimages} source={require("../assets/john5.jpg")}></Image>
-                        </View>
-   
+                    </View>
 
-                
 
-                  
+
+
+
 
 
 
                 </ScrollView>
 
-                <View style={styles.topheader}>
-                    <Text style={styles.titletext}>PROFILE</Text>
-                </View>
 
 
 
@@ -79,27 +90,12 @@ const styles = StyleSheet.create({
         marginTop: 3
     },
 
-    topheader: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        height: 85,
-        backgroundColor: 'maroon',
-        alignItems: 'center',
-        justifyContent: 'center'
 
-
-    },
 
     detailscontainer: {
         paddingHorizontal: 20,
         paddingVertical: 10,
-
         marginTop: 10
-
-
     },
 
     textcontainer: {
@@ -116,7 +112,7 @@ const styles = StyleSheet.create({
     images: {
         height: 300,
         width: null
- 
+
     },
 
 
@@ -124,7 +120,7 @@ const styles = StyleSheet.create({
         height: 120,
         width: 120,
         marginRight: 3,
-        
+
 
 
     },
@@ -147,9 +143,9 @@ const styles = StyleSheet.create({
 
         alignItems: 'center'
 
-    }, 
+    },
 
-    profilebio:{
+    profilebio: {
         paddingHorizontal: 0,
         paddingVertical: 4,
         fontSize: 17,
@@ -160,8 +156,9 @@ const styles = StyleSheet.create({
 
     },
 
-    profiletext:{
+    profiletext: {
         fontSize: 14,
+        marginTop: 4,
     }
 
 });
